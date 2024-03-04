@@ -1,35 +1,41 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { ChakraProvider } from "@chakra-ui/react";
+import "./App.css";
+import Header from "./components/Header/Header";
+import People from "./components/People/people";
+import Companies from "./components/Companies/Companies";
+import Projects from "./components/Projects/Projects";
+import { Grid, GridItem } from "@chakra-ui/react";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <ChakraProvider>
+      <Header />
+      <Companies />
+      <Grid templateColumns={{ base: "100%", md: "60% 40%" }} gap={4}>
+        <GridItem>
+          <People />
+        </GridItem>
+        <GridItem>
+        <h1> Projects</h1>
+          <Projects
+            title="People System Upgrade"
+            sub="peopleUpgrade"
+            desc="Upgrade and enhance the features of HR System"
+          />
+          <Projects
+            title="Books Integration"
+            sub="booksIntegration"
+            desc="Integrate accounting system with external financial tools"
+          />
+          <Projects
+            title="Warehouse Automation"
+            sub="warehouseAutomation"
+            desc="Implement Automation features in the Warehouse management system"
+          />
+        </GridItem>
+      </Grid>
+    </ChakraProvider>
+  );
 }
 
-export default App
+export default App;
