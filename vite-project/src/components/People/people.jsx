@@ -12,13 +12,12 @@ import {
   Box
 } from "@chakra-ui/react";
 
-import PERSONS from "../../resources.json";
+import PERSONS from "./resources.json";
 
 export default function People() {
   return (
   ///bg="tomato"
     <Box p={10} >    
-    <h2 style={{textAlign:"left"}}>Resources</h2>
      <TableContainer >
         <Table variant="striped" colorScheme="green">
           <Thead>

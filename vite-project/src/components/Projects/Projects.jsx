@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Card,
   CardHeader,
@@ -8,20 +9,23 @@ import {
   Text,
 } from "@chakra-ui/react";
 
-export default function Projects({ title, sub, desc }) {
+import projectsData from "./projects.json";
+
+export default function Projects() {
   return (
-    <Card m={10}>
-      <CardBody>
-        <Heading size="lg" textTransform="uppercase">
-          {title}
-        </Heading>
-        <Text pt="2" fontSize="sm">
-          {sub}.
-        </Text>
-        <Text pt="2" fontSize="md">
-          {desc}
-        </Text>
-      </CardBody>
-    </Card>
+    <Box m={10}>
+      {projectsData.map((project) => (
+        <Card key={project.alias} m={5}>
+          <CardHeader>
+            <Heading size="lg">{project.name}</Heading>
+          </CardHeader>
+          <CardBody>
+            <Text fontSize="sm" pt="2">
+              {project.description}
+            </Text>
+          </CardBody>
+        </Card>
+      ))}
+    </Box>
   );
 }

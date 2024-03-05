@@ -11,7 +11,7 @@ import {
   Box,
 } from "@chakra-ui/react";
 
-import COMPANIES from "../../companies.json";
+import COMPANIES from "./companies.json";
 
 export default function Companies() {
   return (
