@@ -4,9 +4,9 @@ import Companies from "../../components/Companies/Companies";
 export default function CompaniesPage() {
   return (
     // w="container.md" mx="auto" mb={4}
-    <Box>
+    <Box >
       <Box >
-        <Heading> Resources</Heading>
+        <Heading> Companies</Heading>
       </Box>
       <Companies />
     </Box>

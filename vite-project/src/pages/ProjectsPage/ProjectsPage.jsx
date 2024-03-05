@@ -6,7 +6,7 @@ export default function ProjectsPagePage() {
     // w="container.md" mx="auto" mb={4}
     <Box>
       <Box >
-        <Heading> Resources</Heading>
+        <Heading> Projects</Heading>
       </Box>
       <Projects />
     </Box>

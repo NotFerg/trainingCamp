@@ -16,7 +16,6 @@ import COMPANIES from "./companies.json";
 export default function Companies() {
   return (
     <>
-      <h2 style={{ textAlign: "left",  }}>companies</h2>
       <TableContainer mb={20}>
         <Table variant="striped" colorScheme="green">
           <Thead>

@@ -7,10 +7,11 @@ import Projects from "./components/Projects/Projects";
 import { Grid, GridItem } from "@chakra-ui/react";
 import Home from "./pages/Home/Home";
 import { Link, Outlet } from "react-router-dom";
+import theme from "./theme"
 
 function App() {
   return (
-    <ChakraProvider>
+    <ChakraProvider theme={theme}>
       <Flex>
         <Box minW={36}>
           <Stack>
