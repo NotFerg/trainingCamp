@@ -17,26 +17,26 @@ import PERSONS from "./resources.json";
 export default function People() {
   return (
   ///bg="tomato"
-    <Box p={10} >    
+    <Box >    
      <TableContainer >
-        <Table variant="striped" colorScheme="green">
+        <Table >
           <Thead>
             <Tr>
-              <Th mr={4}>Name</Th>
-              <Th ml={4}>Type</Th>
+              <Th >Name</Th>
+              <Th >Type</Th>
             </Tr>
           </Thead>
           <Tbody>
             {PERSONS.map((person) => (
               <Tr key={person.Key}>
-                <Td mr={4}>
+                <Td >
                   {person.firstName +
                     " " +
                     person.middleName +
                     " " +
                     person.lastName}
                 </Td>
-                <Td  ml={4}>{person.type}</Td>
+                <Td  >{person.type}</Td>
               </Tr>
             ))}
           </Tbody>

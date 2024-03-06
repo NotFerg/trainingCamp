@@ -13,16 +13,20 @@ import projectsData from "./projects.json";
 
 export default function Projects() {
   return (
-    <Box m={10}>
+    <Box >
       {projectsData.map((project) => (
-        <Card key={project.alias} m={5}>
+        <Card key={project.key}>
           <CardHeader>
-            <Heading size="lg">{project.name}</Heading>
+            <Heading>{project.name}</Heading>
           </CardHeader>
           <CardBody>
-            <Text fontSize="sm" pt="2">
+          <Text >
+              {project.alias}
+            </Text>
+            <Text >
               {project.description}
             </Text>
+           
           </CardBody>
         </Card>
       ))}

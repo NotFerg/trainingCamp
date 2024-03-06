@@ -16,8 +16,8 @@ import COMPANIES from "./companies.json";
 export default function Companies() {
   return (
     <>
-      <TableContainer mb={20}>
-        <Table variant="striped" colorScheme="green">
+      <TableContainer>
+        <Table>
           <Thead>
             <Tr>
               <Th>Name</Th>
