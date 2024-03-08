@@ -1,7 +1,16 @@
-import { Center, Square, Circle } from '@chakra-ui/react'
+import { Button } from "@chakra-ui/button";
+import { HStack, Heading, Spacer, } from "@chakra-ui/layout";
+import PropTypes from "prop-types"
 
-export default function Header() {
+const Header = ({headerText, isAdding = false, toggle}) => {
   return (
-    <h5><strong>Hello World</strong> </h5>
+    <HStack w="container.xl " mx="auto">
+      <Heading textAlign="Center">{headerText}</Heading>
+      <Spacer />
+      {!isAdding && <Button colorScheme="green" onClick={toggle}>Add {headerText}</Button>}
+    </HStack>
   );
 }
+
+Header.proptypes ={isAdding:PropTypes.bool, toggle:PropTypes.func};
+export default Header;

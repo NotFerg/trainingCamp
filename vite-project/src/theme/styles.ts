@@ -4,12 +4,12 @@ export const styles = {
   global: (props) => ({
     "html, body": {
       bg: mode(`gray.200`, `gray.800`)(props),
-      h: "full",
-      w: "full",
+      h: "fit-content",
+      w: "fit-content",
       "div#root": {
         bg: "transparent",
-        w: "inherit",
-        h: "inherit",
+        w: "100%",
+        h: "100%",
         minH: "100vh",
         minW: "100vw",
         p: [2, 2, 8],

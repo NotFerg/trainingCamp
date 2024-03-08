@@ -1,11 +1,5 @@
 import { ChakraProvider, Flex, Box, Stack } from "@chakra-ui/react";
 import "./App.css";
-import Header from "./components/Header/Header";
-import People from "./components/People/people";
-import Companies from "./components/Companies/Companies";
-import Projects from "./components/Projects/Projects";
-import { Grid, GridItem } from "@chakra-ui/react";
-import Home from "./pages/Home/Home";
 import { Link, Outlet } from "react-router-dom";
 import theme from "./theme"
 
