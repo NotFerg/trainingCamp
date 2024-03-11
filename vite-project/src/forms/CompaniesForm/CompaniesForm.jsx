@@ -3,8 +3,9 @@ import { FormControl, FormLabel } from "@chakra-ui/form-control";
 import { Input } from "@chakra-ui/input";
 import { HStack, Heading, Spacer, Stack } from "@chakra-ui/layout";
 import PropTypes from "prop-types";
-import { useState } from "react";
+import { useRef, useState,useEffect } from "react";
 import { Form } from "react-router-dom";
+import mockApi from "../../utils/mockApi";
 
 const initialData = {
   name: "",
@@ -14,28 +15,38 @@ const initialData = {
   contactNumber: "",
 };
 
-const CompaniesForm = ({ onAdd = () => {},onExit = () => {} }) => {
+const CompaniesForm = ({id = -1, onAdd ,onCancel}) => {
   const [formData, setFormData] = useState(initialData);
+  const fetched = useRef(false);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => {
+      return { ...prevData, [name]: value };
+    });
+  };
 
   const handleAdd = (e) => {
     // console.log(formData);
     onAdd(formData);
     setFormData(initialData);
     e.preventDefault();
-    onExit();
   };
 
   const handleCancel = () => {
     setFormData(initialData);
-    onExit();
+    onCancel();
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => {
-      return { ...prevData, [name]: value };
-    });
-  };
+  useEffect(() => {
+    if(id === -1 || fetched.current) return;
+    const requestData = mockApi("GET", `/companies/${id}`);
+    const {status = false, data = {}} = requestData;
+    if(status) {
+        fetched.current = true;
+        setFormData(data)
+    }
+}, [id])
 
   return (
     <Form onSubmit={handleAdd}>
@@ -47,7 +58,7 @@ const CompaniesForm = ({ onAdd = () => {},onExit = () => {} }) => {
             type="text"
             name="name"
             value={formData.name}
-            onChange={handleChange}
+            onChange={handleInputChange}
           />
         </FormControl>
         <FormControl>
@@ -56,7 +67,7 @@ const CompaniesForm = ({ onAdd = () => {},onExit = () => {} }) => {
             type="text"
             name="address"
             value={formData.address}
-            onChange={handleChange}
+            onChange={handleInputChange}
           />
         </FormControl>
         <FormControl>
@@ -65,7 +76,7 @@ const CompaniesForm = ({ onAdd = () => {},onExit = () => {} }) => {
             type="text"
             name="contactPerson"
             value={formData.contactPerson}
-            onChange={handleChange}
+            onChange={handleInputChange}
           />
         </FormControl>
         <FormControl>
@@ -74,7 +85,7 @@ const CompaniesForm = ({ onAdd = () => {},onExit = () => {} }) => {
             type="email"
             name="email"
             value={formData.type}
-            onChange={handleChange}
+            onChange={handleInputChange}
             required
           />
         </FormControl>
@@ -84,14 +95,14 @@ const CompaniesForm = ({ onAdd = () => {},onExit = () => {} }) => {
             type="number"
             name="contactNumber"
             value={formData.contactNumber}
-            onChange={handleChange}
+            onChange={handleInputChange}
           />
         </FormControl>
         <HStack>
           <Spacer />
           <Button type="button" onClick={handleCancel}>Cancel</Button>
           <Button type="submit" onClick={handleAdd} colorScheme="green">
-            Add
+            {id === -1 ? "Add":"Update"}
           </Button>
         </HStack>
       </Stack>
@@ -99,6 +110,6 @@ const CompaniesForm = ({ onAdd = () => {},onExit = () => {} }) => {
   );
 };
 
-CompaniesForm.propTypes = { onAdd: PropTypes.func, onExit: PropTypes.func };
+CompaniesForm.propTypes = { id: PropTypes.number, onAdd: PropTypes.func, onCancel: PropTypes.func};
 
 export default CompaniesForm;

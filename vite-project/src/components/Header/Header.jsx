@@ -4,7 +4,7 @@ import PropTypes from "prop-types"
 
 const Header = ({headerText, isAdding = false, toggle}) => {
   return (
-    <HStack w="container.xl " mx="auto">
+    <HStack w="container.md " mx="auto">
       <Heading textAlign="Center">{headerText}</Heading>
       <Spacer />
       {!isAdding && <Button colorScheme="green" onClick={toggle}>Add {headerText}</Button>}

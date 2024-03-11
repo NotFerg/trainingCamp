@@ -12,12 +12,13 @@ import {
   Box,
   HStack,
   Button,
+  ButtonGroup,
 } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 
-const Resources = ({ data, onDelete = () => {} }) => {
+const Resources = ({ data = [], onDelete, onEdit }) => {
   return (
-    <TableContainer w="container.xl " mx="auto">
+    <TableContainer w="container.md " mx="auto">
       <Table>
         <Thead>
           <Tr>
@@ -39,13 +40,22 @@ const Resources = ({ data, onDelete = () => {} }) => {
                 </Td>
                 <Td>{resource.type}</Td>
                 <Td isNumeric>
-                  <Button
-                    colorScheme="red"
-                    variant="outline"
-                    onClick={() => onDelete(resourceIndex)}
-                  >
-                    Delete
-                  </Button>
+                  <ButtonGroup>
+                    <Button
+                      colorScheme="green"
+                      variant="outline"
+                      onClick={() => onEdit(resource?.id)}
+                    >
+                      Edit
+                    </Button>
+                    <Button
+                      colorScheme="red"
+                      variant="outline"
+                      onClick={() => onDelete(resource?.id)}
+                    >
+                      Delete
+                    </Button>
+                  </ButtonGroup>
                 </Td>
               </Tr>
             ))}
@@ -55,6 +65,10 @@ const Resources = ({ data, onDelete = () => {} }) => {
   );
 };
 
-Resources.propTypes = { data: PropTypes.array, onDelete: PropTypes.func };
+Resources.propTypes = {
+  data: PropTypes.array,
+  onDelete: PropTypes.func,
+  onEdit: PropTypes.func,
+};
 
 export default Resources;

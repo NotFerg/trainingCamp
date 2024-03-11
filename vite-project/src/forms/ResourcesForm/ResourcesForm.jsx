@@ -3,8 +3,9 @@ import { FormControl, FormLabel } from "@chakra-ui/form-control";
 import { Input } from "@chakra-ui/input";
 import { HStack, Heading, Spacer, Stack } from "@chakra-ui/layout";
 import PropTypes from "prop-types";
-import { useState } from "react";
+import { useRef, useState,useEffect } from "react";
 import { Form } from "react-router-dom";
+import mockApi from "../../utils/mockApi";
 
 const initialData = {
   firstName: "",
@@ -13,28 +14,39 @@ const initialData = {
   type: "",
 };
 
-const ResourcesForm = ({ onAdd = () => {},onExit = () => {} }) => {
+const ResourcesForm = ({id = -1, onAdd ,onCancel}) => {
   const [formData, setFormData] = useState(initialData);
+  const fetched = useRef(false);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => {
+      return { ...prevData, [name]: value };
+    });
+  };
 
   const handleAdd = (e) => {
     // console.log(formData);
     onAdd(formData);
     setFormData(initialData);
     e.preventDefault();
-    onExit();
   };
 
   const handleCancel = () => {
     setFormData(initialData);
-    onExit();
+    onCancel();
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => {
-      return { ...prevData, [name]: value };
-    });
-  };
+  useEffect(() => {
+    if(id === -1 || fetched.current) return;
+    const requestData = mockApi("GET", `/resources/${id}`);
+    const {status = false, data = {}} = requestData;
+    if(status) {
+        fetched.current = true;
+        setFormData(data)
+    }
+}, [id])
+
 
   return (
     <Form onSubmit={handleAdd}>
@@ -46,7 +58,7 @@ const ResourcesForm = ({ onAdd = () => {},onExit = () => {} }) => {
             type="text"
             name="firstName"
             value={formData.firstName}
-            onChange={handleChange}
+            onChange={handleInputChange}
           />
         </FormControl>
         <FormControl>
@@ -55,7 +67,7 @@ const ResourcesForm = ({ onAdd = () => {},onExit = () => {} }) => {
             type="text"
             name="middleName"
             value={formData.middleName}
-            onChange={handleChange}
+            onChange={handleInputChange}
           />
         </FormControl>
         <FormControl>
@@ -64,7 +76,7 @@ const ResourcesForm = ({ onAdd = () => {},onExit = () => {} }) => {
             type="text"
             name="lastName"
             value={formData.lastName}
-            onChange={handleChange}
+            onChange={handleInputChange}
           />
         </FormControl>
         <FormControl>
@@ -73,14 +85,14 @@ const ResourcesForm = ({ onAdd = () => {},onExit = () => {} }) => {
             type="text"
             name="type"
             value={formData.type}
-            onChange={handleChange}
+            onChange={handleInputChange}
           />
         </FormControl>
         <HStack>
           <Spacer />
           <Button type="button" onClick={handleCancel}>Cancel</Button>
           <Button type="submit" onClick={handleAdd} colorScheme="green">
-            Add
+            {id === -1 ? "Add":"Update"}
           </Button>
         </HStack>
       </Stack>
@@ -88,6 +100,6 @@ const ResourcesForm = ({ onAdd = () => {},onExit = () => {} }) => {
   );
 };
 
-ResourcesForm.propTypes = { onAdd: PropTypes.func, onExit: PropTypes.func };
+ResourcesForm.propTypes = {id: PropTypes.number, onAdd: PropTypes.func, onCancel: PropTypes.func };
 
 export default ResourcesForm;
