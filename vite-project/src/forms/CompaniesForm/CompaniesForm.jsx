@@ -15,9 +15,9 @@ const initialData = {
   contactNumber: "",
 };
 
-const CompaniesForm = ({id = -1, onAdd ,onCancel}) => {
+const CompaniesForm = ({id = "add", onAdd, onCancel}) => {
   const [formData, setFormData] = useState(initialData);
-  const fetched = useRef(false);
+  const fetched = useRef("add");
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -28,25 +28,24 @@ const CompaniesForm = ({id = -1, onAdd ,onCancel}) => {
 
   const handleAdd = (e) => {
     // console.log(formData);
-    onAdd(formData);
-    setFormData(initialData);
     e.preventDefault();
+    onAdd(formData);
   };
 
   const handleCancel = () => {
-    setFormData(initialData);
     onCancel();
   };
 
   useEffect(() => {
-    if(id === -1 || fetched.current) return;
+    if (id === "add") return;
+    if (fetched.current === id) return;
     const requestData = mockApi("GET", `/companies/${id}`);
-    const {status = false, data = {}} = requestData;
-    if(status) {
-        fetched.current = true;
-        setFormData(data)
+    const { status = false, data = {} } = requestData;
+    if (status) {
+      fetched.current = true;
+      setFormData(data);
     }
-}, [id])
+  }, [id]);
 
   return (
     <Form onSubmit={handleAdd}>
@@ -102,7 +101,7 @@ const CompaniesForm = ({id = -1, onAdd ,onCancel}) => {
           <Spacer />
           <Button type="button" onClick={handleCancel}>Cancel</Button>
           <Button type="submit" onClick={handleAdd} colorScheme="green">
-            {id === -1 ? "Add":"Update"}
+            {id === "add" ? "Add":"Update"}
           </Button>
         </HStack>
       </Stack>
@@ -110,6 +109,9 @@ const CompaniesForm = ({id = -1, onAdd ,onCancel}) => {
   );
 };
 
-CompaniesForm.propTypes = { id: PropTypes.number, onAdd: PropTypes.func, onCancel: PropTypes.func};
+CompaniesForm.propTypes = {
+   id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  onAdd: PropTypes.func,
+  onCancel: PropTypes.func,};
 
 export default CompaniesForm;

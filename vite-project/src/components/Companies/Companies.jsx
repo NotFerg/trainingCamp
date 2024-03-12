@@ -1,20 +1,8 @@
 import {
-  Table,
-  Thead,
-  Tbody,
-  Tfoot,
-  Tr,
-  Th,
-  Td,
-  TableCaption,
-  TableContainer,
-  Box,
-  Button,
-  ButtonGroup,
-} from "@chakra-ui/react";
+  Table,Thead,Tbody,Tr,Th,Td,TableContainer,LinkBox,LinkOverlay} from "@chakra-ui/react";
 import PropTypes from "prop-types";
 
-const Companies = ({ data = [], onDelete, onEdit }) => {
+const Companies = ({ data = []}) => {
   return (
     <>
       <TableContainer w="container.md " mx="auto">
@@ -26,37 +14,22 @@ const Companies = ({ data = [], onDelete, onEdit }) => {
               <Th>Contact Person</Th>
               <Th>Email</Th>
               <Th>Number</Th>
-              <Th isNumeric>Actions</Th>
             </Tr>
           </Thead>
           <Tbody>
             {data?.length > 0 &&
               data.map((company = {}, companyIndex) => (
-                <Tr key={`resource-${companyIndex}`}>
-                  <Td>{company.name}</Td>
+                <LinkBox as={Tr} key={`company-${companyIndex}`}>
+                  <Td>
+                  <LinkOverlay href={`/company/${company?.id}`}>
+                  {company.name}
+                  </LinkOverlay>
+                  </Td>
                   <Td>{company.address}</Td>
                   <Td>{company.contactPerson}</Td>
                   <Td>{company.email}</Td>
                   <Td>{company.contactNumber}</Td>
-                  <Td isNumeric>
-                    <ButtonGroup>
-                      <Button
-                        colorScheme="green"
-                        variant="outline"
-                        onClick={() => onEdit(company?.id)}
-                      >
-                        Edit
-                      </Button>
-                      <Button
-                        colorScheme="red"
-                        variant="outline"
-                        onClick={() => onDelete(company?.id)}
-                      >
-                        Delete
-                      </Button>
-                    </ButtonGroup>
-                  </Td>
-                </Tr>
+                </LinkBox>
               ))}
           </Tbody>
         </Table>
@@ -65,6 +38,6 @@ const Companies = ({ data = [], onDelete, onEdit }) => {
   );
 };
 
-Companies.propTypes = { data: PropTypes.array, onDelete: PropTypes.func, onEdit:PropTypes.func };
+Companies.propTypes = { data: PropTypes.array};
 
 export default Companies;

@@ -3,7 +3,7 @@ import { FormControl, FormLabel } from "@chakra-ui/form-control";
 import { Input } from "@chakra-ui/input";
 import { HStack, Heading, Spacer, Stack } from "@chakra-ui/layout";
 import PropTypes from "prop-types";
-import { useRef, useState,useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Form } from "react-router-dom";
 import mockApi from "../../utils/mockApi";
 
@@ -13,9 +13,9 @@ const initialData = {
   description: "",
 };
 
-const ProjectsForm = ({ id = -1, onAdd ,onCancel}) => {
+const ProjectsForm = ({ id = "add", onAdd, onCancel }) => {
   const [formData, setFormData] = useState(initialData);
-  const fetched = useRef(false);
+  const fetched = useRef("add");
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -37,16 +37,15 @@ const ProjectsForm = ({ id = -1, onAdd ,onCancel}) => {
   };
 
   useEffect(() => {
-    if(id === -1 || fetched.current) return;
+    if (id === "add") return;
+    if (fetched.current === id) return;
     const requestData = mockApi("GET", `/projects/${id}`);
-    const {status = false, data = {}} = requestData;
-    if(status) {
-        fetched.current = true;
-        setFormData(data)
+    const { status = false, data = {} } = requestData;
+    if (status) {
+      fetched.current = true;
+      setFormData(data);
     }
-}, [id])
-
-
+  }, [id]);
 
   return (
     <Form onSubmit={handleAdd}>
@@ -85,7 +84,7 @@ const ProjectsForm = ({ id = -1, onAdd ,onCancel}) => {
             Cancel
           </Button>
           <Button type="submit" onClick={handleAdd} colorScheme="green">
-          {id === -1 ? "Add":"Update"}
+            {id === "add" ? "Add" : "Update"}
           </Button>
         </HStack>
       </Stack>
@@ -93,6 +92,10 @@ const ProjectsForm = ({ id = -1, onAdd ,onCancel}) => {
   );
 };
 
-ProjectsForm.propTypes = {id: PropTypes.number, onAdd: PropTypes.func, onCancel: PropTypes.func};
+ProjectsForm.propTypes = {
+  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  onAdd: PropTypes.func,
+  onCancel: PropTypes.func,
+};
 
 export default ProjectsForm;
