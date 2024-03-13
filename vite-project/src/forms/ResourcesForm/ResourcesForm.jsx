@@ -1,11 +1,13 @@
 import { Button } from "@chakra-ui/button";
-import { FormControl, FormLabel } from "@chakra-ui/form-control";
+import { FormControl, FormLabel, FormErrorMessage } from "@chakra-ui/form-control";
 import { Input } from "@chakra-ui/input";
 import { HStack, Heading, Spacer, Stack } from "@chakra-ui/layout";
 import PropTypes from "prop-types";
 import { useRef, useState, useEffect } from "react";
 import { Form } from "react-router-dom";
 import mockApi from "../../utils/mockApi";
+import { validateResource } from "../../utils/resourceValidator";
+
 
 const initialData = {
   firstName: "",
@@ -16,6 +18,7 @@ const initialData = {
 
 const ResourcesForm = ({ id = "add", onAdd, onCancel }) => {
   const [formData, setFormData] = useState(initialData);
+  const [errors, setErrors] = useState([]);
   const fetched = useRef("add");
 
   const handleInputChange = (e) => {
@@ -28,7 +31,14 @@ const ResourcesForm = ({ id = "add", onAdd, onCancel }) => {
   const handleAdd = (e) => {
     // console.log(formData);
     e.preventDefault();
-    onAdd(formData);
+    const validator = validateResource(formData);
+    const {isValid = false, errors = {}} = validator;
+    if(isValid){
+      onAdd(formData);
+      setErrors([]);
+    }else{
+      setErrors(errors);
+    }   
   };
 
   const handleCancel = () => {
@@ -50,7 +60,8 @@ const ResourcesForm = ({ id = "add", onAdd, onCancel }) => {
     <Form onSubmit={handleAdd}>
       <Stack>
         <Heading size="sm">Add Resource</Heading>
-        <FormControl>
+
+        <FormControl isInvalid={errors?.firstName}>
           <FormLabel> First Name</FormLabel>
           <Input
             type="text"
@@ -58,8 +69,10 @@ const ResourcesForm = ({ id = "add", onAdd, onCancel }) => {
             value={formData.firstName}
             onChange={handleInputChange}
           />
+          <FormErrorMessage>{errors?.firstName}</FormErrorMessage>
         </FormControl>
-        <FormControl>
+
+        <FormControl isInvalid={errors?.middleName}>
           <FormLabel>Middle Name</FormLabel>
           <Input
             type="text"
@@ -67,8 +80,9 @@ const ResourcesForm = ({ id = "add", onAdd, onCancel }) => {
             value={formData.middleName}
             onChange={handleInputChange}
           />
+          <FormErrorMessage>{errors?.middleName}</FormErrorMessage>
         </FormControl>
-        <FormControl>
+        <FormControl isInvalid={errors?.lastName}>
           <FormLabel>Last Name</FormLabel>
           <Input
             type="text"
@@ -76,8 +90,11 @@ const ResourcesForm = ({ id = "add", onAdd, onCancel }) => {
             value={formData.lastName}
             onChange={handleInputChange}
           />
+          <FormErrorMessage>{errors?.lastName}</FormErrorMessage>
+
         </FormControl>
-        <FormControl>
+
+        <FormControl isInvalid={errors?.type}>
           <FormLabel> Type</FormLabel>
           <Input
             type="text"
@@ -85,6 +102,7 @@ const ResourcesForm = ({ id = "add", onAdd, onCancel }) => {
             value={formData.type}
             onChange={handleInputChange}
           />
+          <FormErrorMessage>{errors?.type}</FormErrorMessage>
         </FormControl>
         <HStack>
           <Spacer />

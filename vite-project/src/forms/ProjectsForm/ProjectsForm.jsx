@@ -1,11 +1,12 @@
 import { Button } from "@chakra-ui/button";
-import { FormControl, FormLabel } from "@chakra-ui/form-control";
+import { FormControl, FormLabel, FormErrorMessage } from "@chakra-ui/form-control";
 import { Input } from "@chakra-ui/input";
 import { HStack, Heading, Spacer, Stack } from "@chakra-ui/layout";
 import PropTypes from "prop-types";
 import { useRef, useState, useEffect } from "react";
 import { Form } from "react-router-dom";
 import mockApi from "../../utils/mockApi";
+import { validateProject } from "../../utils/projectValidator";
 
 const initialData = {
   name: "",
@@ -15,6 +16,7 @@ const initialData = {
 
 const ProjectsForm = ({ id = "add", onAdd, onCancel }) => {
   const [formData, setFormData] = useState(initialData);
+  const [errors, setErrors] = useState([]);
   const fetched = useRef("add");
 
   const handleInputChange = (e) => {
@@ -26,9 +28,15 @@ const ProjectsForm = ({ id = "add", onAdd, onCancel }) => {
 
   const handleAdd = (e) => {
     // console.log(formData);
-    onAdd(formData);
-    setFormData(initialData);
     e.preventDefault();
+    const validator = validateProject(formData);
+    const {isValid = false, errors = {}} = validator;
+    if(isValid){
+      onAdd(formData);
+      setErrors([]);
+    }else{
+      setErrors(errors);
+    }   
   };
 
   const handleCancel = () => {
@@ -51,7 +59,8 @@ const ProjectsForm = ({ id = "add", onAdd, onCancel }) => {
     <Form onSubmit={handleAdd}>
       <Stack>
         <Heading size="sm">Add Resource</Heading>
-        <FormControl>
+
+        <FormControl isInvalid={errors?.name}>
           <FormLabel>Name</FormLabel>
           <Input
             type="text"
@@ -59,8 +68,10 @@ const ProjectsForm = ({ id = "add", onAdd, onCancel }) => {
             value={formData.name}
             onChange={handleInputChange}
           />
+          <FormErrorMessage>{errors?.name}</FormErrorMessage>
         </FormControl>
-        <FormControl>
+
+        <FormControl isInvalid={errors?.alias}>
           <FormLabel>Alias</FormLabel>
           <Input
             type="text"
@@ -68,8 +79,10 @@ const ProjectsForm = ({ id = "add", onAdd, onCancel }) => {
             value={formData.alias}
             onChange={handleInputChange}
           />
+           <FormErrorMessage>{errors?.alias}</FormErrorMessage>
         </FormControl>
-        <FormControl>
+
+        <FormControl isInvalid={errors?.description}>
           <FormLabel>Description</FormLabel>
           <Input
             type="text"
@@ -77,7 +90,9 @@ const ProjectsForm = ({ id = "add", onAdd, onCancel }) => {
             value={formData.description}
             onChange={handleInputChange}
           />
+          <FormErrorMessage>{errors?.description}</FormErrorMessage>
         </FormControl>
+
         <HStack>
           <Spacer />
           <Button type="button" onClick={handleCancel}>

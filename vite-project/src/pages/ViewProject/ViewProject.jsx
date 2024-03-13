@@ -11,6 +11,7 @@ import {
   Spacer,
   Button,
 } from "@chakra-ui/react";
+import Swal from "sweetalert2";
 
 const ViewProject = () => {
   const navigate = useNavigate();
@@ -28,15 +29,45 @@ const ViewProject = () => {
     const requestData = mockApi(method, endpoint, data);
     const { status = false } = requestData; //data: newData = {}
 
-    if (status && !data?.id > -1) {
+    if (status) {
+      if (!data?.id > -1) {
+        Swal.fire({
+          title: "Project Added",
+          text: "Succesfully added project",
+          icon: "success",
+        });
       // navigate(`/resource/${newData?.id}`);
-      navigate(`/projects`);
+      navigate("/projects");
+      }else{
+        Swal.fire({
+          title: "Project Updated",
+          text: "Succesfully updated project",
+          icon: "success",
+        });
+      }
     }
   };
 
   const handleDeleteResources = () => {
-    mockApi("DELETE", `/projects/${id}`);
-    navigate("/projects");
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success",
+        });
+        mockApi("DELETE", `/projects/${id}`);
+        navigate("/projects");
+      }
+    });
   };
 
   const handleCancel = () => {
@@ -57,12 +88,14 @@ const ViewProject = () => {
       <Box w="full" my={8}>
         <Divider borderColor="grey.500" />
       </Box>
-      <HStack>
-        <Spacer />
-        <Button colorScheme="red" onClick={handleDeleteResources}>
-          Delete
-        </Button>
-      </HStack>
+      {id !== "add" && ( // Conditionally rendering delete button
+        <HStack>
+          <Spacer />
+          <Button colorScheme="red" onClick={handleDeleteResources}>
+            Delete
+          </Button>
+        </HStack>
+      )}
     </Stack>
   );
 };
