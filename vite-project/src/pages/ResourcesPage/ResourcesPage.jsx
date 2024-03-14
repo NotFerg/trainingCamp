@@ -25,7 +25,7 @@ const ResourcesPage = () => {
   return (
     // w="container.md" mx="auto" mb={4}
     <Stack>
-      <Header headerText="resource" />
+      <Header headerText="Resources" headerLink="resource" />
         <Resources data={resourcesData}/>     
     </Stack>
   );

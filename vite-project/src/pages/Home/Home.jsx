@@ -1,4 +1,4 @@
-import { Button } from "@chakra-ui/react";
+import { Button, Center,Heading } from "@chakra-ui/react";
 import mockApi from "../../utils/mockApi";
 import { useNavigate } from "react-router-dom";
 
@@ -11,8 +11,8 @@ function handleClick(){
 }
   return (
     <div>
-      Hello World
-      <Button onClick={handleClick}>RESET</Button>
+      <Center><Heading mt={20}>Hello World</Heading></Center>
+      {/* <Button onClick={handleClick}>RESET</Button> */}
     </div>
   );
 }

@@ -8,12 +8,15 @@ import {
   TableContainer,
   LinkBox,
   LinkOverlay,
+  Card,CardBody
 } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 
 const Resources = ({ data = [] }) => {
   return (
-    <TableContainer w="container.md " mx="auto">
+    <Card w="full" maxW="container.nd" mx="auto">
+      <CardBody pt={0} px={0} bg="#CCD3CA">
+      <TableContainer w="container.md " mx="auto" >
       <Table>
         <Thead>
           <Tr>
@@ -40,6 +43,9 @@ const Resources = ({ data = [] }) => {
         </Tbody>
       </Table>
     </TableContainer>
+      </CardBody>
+    </Card>
+   
   );
 };
 

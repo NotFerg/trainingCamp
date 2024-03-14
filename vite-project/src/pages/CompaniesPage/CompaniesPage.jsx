@@ -25,7 +25,7 @@ const CompaniesPage = () => {
   return (
     // w="container.md" mx="auto" mb={4}
     <Stack>
-      <Header headerText="Company"/>
+      <Header headerText="Companies" headerLink="Company"/>
       <Companies data={companyData}/>
     </Stack>
   );

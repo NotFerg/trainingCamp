@@ -26,7 +26,7 @@ const ProjectsPage = () => {
     // w="container.md" mx="auto" mb={4}
     <Stack>
       <Header
-        headerText="project"/>
+        headerText="Projects" headerLink="project"/>
         <Projects data={projectsData}/> 
     </Stack>
   );

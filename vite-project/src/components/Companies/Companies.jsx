@@ -1,10 +1,11 @@
 import {
-  Table,Thead,Tbody,Tr,Th,Td,TableContainer,LinkBox,LinkOverlay} from "@chakra-ui/react";
+  Table,Thead,Tbody,Tr,Th,Td,TableContainer,LinkBox,LinkOverlay,Card,CardBody} from "@chakra-ui/react";
 import PropTypes from "prop-types";
 
 const Companies = ({ data = []}) => {
   return (
-    <>
+    <Card  w="full" maxW="container.md" mx="auto">
+      <CardBody pt={0} px={0} bg="#CCD3CA">
       <TableContainer w="container.md " mx="auto">
         <Table>
           <Thead>
@@ -34,7 +35,8 @@ const Companies = ({ data = []}) => {
           </Tbody>
         </Table>
       </TableContainer>
-    </>
+      </CardBody>
+    </Card>
   );
 };
 
