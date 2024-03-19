@@ -31,7 +31,7 @@ import {List,Icon,ListItem, Drawer,DrawerOverlay, DrawerContent,DrawerCloseButto
           {generateListItem(pathname, "/resources", GrResources, "Resources")}
           {generateListItem(pathname, "/projects", GrProjects, "Projects")}
           {generateListItem(pathname, "/companies", FaBuilding, "Companies")}
-          {generateListItem(pathname, "/request", IoIosDocument, "Request")}
+          {generateListItem(pathname, "/requests", IoIosDocument, "Request")}
         </List>
   
         <Drawer placement="top" isOpen={isOpen} onClose={onClose} bg="#B5C0D0">
@@ -45,7 +45,7 @@ import {List,Icon,ListItem, Drawer,DrawerOverlay, DrawerContent,DrawerCloseButto
                 {generateListItem(pathname, "/resources", GrResources, "Resources")}
                 {generateListItem(pathname, "/projects", GrProjects, "Projects")}
                 {generateListItem(pathname, "/companies", FaBuilding, "Companies")}
-                {generateListItem(pathname, "/request", IoIosDocument, "Request")}
+                {generateListItem(pathname, "/requests", IoIosDocument, "Request")}
               </List>
             </DrawerBody>
           </DrawerContent>

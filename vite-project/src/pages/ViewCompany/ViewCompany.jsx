@@ -12,7 +12,7 @@ const ViewCompany = () => {
     <CompanyProvider id={id}>
       <Stack w="full" maxW="container.md" mx="auto">
           <ViewCompanyForm/>
-        <ViewCompanyFooter id={id}/>
+        <ViewCompanyFooter/>
       </Stack>
     </CompanyProvider>
   );
